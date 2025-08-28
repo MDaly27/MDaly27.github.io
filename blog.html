@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog</title>
+  <meta name="description" content="A minimal JSON-driven blog page for GitHub Pages." />
+  <style>
+    :root{
+      --bg:#0b0c10; --panel:#12141a; --ink:#eaeef3; --muted:#9aa3af; --accent:#6ee7b7; --ring:#2a2f3a; --card:#0f1117;
+      --max: 880px; --radius: 16px; --gap: 14px; --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial; color:var(--ink); background: radial-gradient(1200px 600px at 10% -10%, #111522 0%, #0b0c10 50%, #090a0e 100%);} 
+    a{color:inherit; text-decoration:none}
+
+    header{position:sticky; top:0; backdrop-filter: blur(8px); background: color-mix(in oklab, var(--bg) 70%, transparent 30%); border-bottom:1px solid var(--ring); z-index:5}
+    .wrap{max-width:var(--max); margin-inline:auto; padding: 18px clamp(14px, 4vw, 24px);} 
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.3px}
+    .dot{width:12px; height:12px; border-radius:50%; background:linear-gradient(120deg, var(--accent), #93c5fd)}
+
+    main{padding-block: 22px 60px}
+    .posts{display:grid; grid-template-columns:1fr; gap: var(--gap)}
+    .post{padding:18px; border-radius:var(--radius); border:1px solid var(--ring); background: linear-gradient(180deg, #0d1016, #0b0e13)}
+    .post h2{margin:0 0 4px 0; font-size: clamp(1.15rem, 1.1rem + 0.5vw, 1.45rem)}
+    .post .meta{display:flex; gap:12px; align-items:center; color:var(--muted); font-size:.95rem}
+    .post .excerpt{margin-top:10px; color:#cdd6e5}
+    .post a:hover h2{text-decoration:underline}
+
+    article.prose{max-width:var(--max); margin-inline:auto; padding: 10px clamp(14px, 4vw, 24px);} 
+    article.prose h1{font-size:clamp(1.6rem, 1.2rem + 1.2vw, 2.2rem); margin-bottom:0}
+    article.prose .meta{color:var(--muted); margin:8px 0 18px}
+    article.prose img{max-width:100%; height:auto; border-radius:12px; border:1px solid var(--ring)}
+    article.prose p, article.prose ul{color:#d9e3f0}
+    .back{display:inline-flex; align-items:center; gap:8px; margin: 6px 0 10px; color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap" style="display:flex; align-items:center; justify-content:space-between; gap:14px">
+      <a href="./blog.html" class="brand" aria-label="Go to blog home">
+        <span class="dot"></span>
+        <span id="site-title">Blog</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- LIST VIEW ONLY SHOWS POSTS FROM JSON -->
+  <main id="list-view" hidden>
+    <div class="wrap">
+      <h1 style="margin:0 0 12px 0">Posts</h1>
+      <div class="posts" id="posts"></div>
+    </div>
+  </main>
+
+  <!-- SINGLE POST VIEW -->
+  <main id="post-view" hidden>
+    <article class="prose">
+      <a href="./blog.html" class="back">← Back to posts</a>
+      <h1 id="post-title">Title</h1>
+      <div class="meta" id="post-meta"></div>
+      <div id="post-body"></div>
+    </article>
+  </main>
+
+  <template id="post-card">
+    <a class="post" href="#">
+      <h2></h2>
+      <div class="meta"></div>
+      <p class="excerpt"></p>
+    </a>
+  </template>
+
+  <!-- Inline JSON fallback. Put a real posts.json next to this file and it will be used instead. -->
+  <script id="posts-data" type="application/json">{
+    "title": "My Blog",
+    "description": "Sample JSON‑driven blog on GitHub Pages",
+    "author": "Your Name",
+    "posts": [
+      {
+        "slug": "hello-world",
+        "title": "Hello, World",
+        "date": "2025-08-26",
+        "tags": ["intro","meta"],
+        "summary": "A short hello and what this blog template is about.",
+        "content_html": "<p>Welcome to my JSON‑driven blog. Edit <code>posts.json</code> to add more entries. This works great on GitHub Pages without a backend.</p>"
+      },
+      {
+        "slug": "linux-tuning-notes",
+        "title": "Linux tuning notes",
+        "date": "2025-08-20",
+        "tags": ["linux","perf"],
+        "summary": "Wayland vs X11, shader caches, and stutter fixes.",
+        "content_html": "<p>Collected notes on tuning graphics stacks. Keep an eye on shader precompilation and background processing for smoother starts.</p>"
+      }
+    ]
+  }</script>
+
+  <script>
+  const $ = (sel, el=document)=>el.querySelector(sel);
+  const fmtDate = (iso)=> new Date(iso + 'T00:00:00').toLocaleDateString(undefined,{year:'numeric', month:'short', day:'numeric'});
+
+  async function loadData(){
+    try{
+      const res = await fetch('posts.json', {cache:'no-store'});
+      if(res.ok){ return await res.json(); }
+      throw new Error('No external posts.json; using inline fallback');
+    }catch(err){
+      const txt = document.getElementById('posts-data').textContent;
+      return JSON.parse(txt);
+    }
+  }
+
+  function renderList(model){
+    document.title = (model.title||'Blog') + ' — Posts';
+    document.getElementById('site-title').textContent = model.title || 'Blog';
+    const postsEl = $('#posts');
+    postsEl.innerHTML = '';
+    const sorted = (model.posts||[]).slice().sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+    sorted.forEach(p=>{
+      const tpl = document.getElementById('post-card');
+      const node = tpl.content.cloneNode(true);
+      const a = node.querySelector('a'); a.href = `./blog.html?slug=${encodeURIComponent(p.slug)}`;
+      node.querySelector('h2').textContent = p.title;
+      node.querySelector('.meta').textContent = `${fmtDate(p.date)}${p.tags?.length? ' · ' + p.tags.join(', ') : ''}`;
+      node.querySelector('.excerpt').textContent = p.summary || '';
+      postsEl.appendChild(node);
+    });
+    $('#list-view').hidden = false;
+  }
+
+  function renderPost(model, slug){
+    const post = (model.posts||[]).find(p=>p.slug===slug);
+    if(!post){ location.replace('./blog.html'); return; }
+    document.title = post.title + ' — ' + (model.title||'Blog');
+    $('#post-title').textContent = post.title;
+    $('#post-meta').textContent = `${fmtDate(post.date)}${post.tags?.length? ' · ' + post.tags.join(', ') : ''}`;
+    $('#post-body').innerHTML = post.content_html || '';
+    $('#post-view').hidden = false;
+  }
+
+  (async function init(){
+    const model = await loadData();
+    const url = new URL(location.href);
+    const slug = url.searchParams.get('slug');
+    if(slug){ renderPost(model, slug); } else { renderList(model); }
+  })();
+  </script>
+</body>
+</html>
