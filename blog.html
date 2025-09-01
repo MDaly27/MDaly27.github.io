@@ -31,7 +31,7 @@
     article.prose{max-width:var(--max); margin-inline:auto; padding: 10px clamp(14px, 4vw, 24px);} 
     article.prose h1{font-size:clamp(1.6rem, 1.2rem + 1.2vw, 2.2rem); margin-bottom:0}
     article.prose .meta{color:var(--muted); margin:8px 0 18px}
-    article.prose img{max-width:100%; height:auto; border-radius:12px; border:1px solid var(--ring)}
+    article.prose img{max-width:100%; height:auto; border-radius:12px; border:1px solid var(--ring); margin: 18px 0;}
     article.prose p, article.prose ul{color:#d9e3f0}
     .back{display:inline-flex; align-items:center; gap:8px; margin: 6px 0 10px; color:var(--muted)}
   </style>
@@ -72,76 +72,92 @@
     </a>
   </template>
 
-  <!-- Inline JSON fallback. Put a real posts.json next to this file and it will be used instead. -->
   <script id="posts-data" type="application/json">{
     "title": "My Blog",
     "description": "Sample JSON‑driven blog on GitHub Pages",
     "author": "Your Name",
     "posts": [
       {
-        "slug": "hello-world",
-        "title": "Hello, World",
-        "date": "2025-08-26",
-        "tags": ["intro","meta"],
-        "summary": "A short hello and what this blog template is about.",
-        "content_html": "<p>Welcome to my JSON‑driven blog. Edit <code>posts.json</code> to add more entries. This works great on GitHub Pages without a backend.</p>"
-      },
-      {
-        "slug": "linux-tuning-notes",
-        "title": "Linux tuning notes",
-        "date": "2025-08-20",
-        "tags": ["linux","perf"],
-        "summary": "Wayland vs X11, shader caches, and stutter fixes.",
-        "content_html": "<p>Collected notes on tuning graphics stacks. Keep an eye on shader precompilation and background processing for smoother starts.</p>"
+        "slug": "hackers-in-the-bazaar-reflection",
+        "title": "Reading 01 Reflection – Hackers in the Bazaar",
+        "date": "2025-08-31",
+        "tags": ["reading","reflection","history"],
+        "summary": "Reflection on early MIT hacker culture from TX-0, PDP-1, and the hacker ethic.",
+        "content_html": "<p>This first part of <em>Hackers in the Bazaar</em> presented an inside look into the emerging hacker culture at MIT in the 50s–60s, looking into their social lives, the kind of technology they were building, and the larger implications to this movement.</p>\n\n<img src=\"tx-0.jpg\" alt=\"Students working on the TX-0 computer\">\n\n<p>In the late 50s, computers were only just starting to appear on college campuses, with MIT being one of the first. At this time, computers were still “Hulking Giant” machines, taking up entire floors of buildings. Users would write programs in machine code by hand, punch them into cards, then hand them over to a team of dedicated computer operators, who would run programs in batches and then return the output at some later point. Users would not have the option to debug errors live, as computer time was scarce, and machines were often highly protected due to their cost.</p>\n\n<p>At MIT the origin of the hacker culture began with the TX-0 and PDP-1, early minicomputers either donated or procured by the institute. With these minicomputers, as opposed to the Hulking Giants, students were given unprecedented access to the actual machine. Among the group of students who gravitated towards the computers were a group of especially dedicated young engineers who subscribed to a revolutionary new set of ideas, known as the hacker ethic.</p>\n\n<p>The early hackers believed that the only way to understand something was to work with it hands-on, and to learn exactly how it functioned. Additionally, to the hackers, producing actual results (whether a new version of <em>Spacewar!</em> or a compiler for LISP) was what really mattered, not characteristics like race, appearance, or social skills. Information, like source code, should be freely available to all, not locked behind any barriers. Finally, authority should be disobeyed whenever it got in the way of access to technology.</p>\n\n<img src=\"Spacewar!-PDP-1-20070512.jpg\" alt=\"PDP-1 running Spacewar!\">\n\n<p>These new ideas were a whole new way of looking at the world, spurred by the new computers and the mindsets of the hackers who gravitated to them. They contrasted greatly with the bureaucratic routine of academia, especially at elite institutions. Though the hacker group at MIT was filled with technical geniuses who were building things even the military and IBM likely did not yet have, many failed out of college. They adopted a 30 hour work day, maximizing flow state time on the PC, often at the expense of their classes. Yet this did not deter the hackers, who felt the only important thing in the world was to create new innovations on the PC (called “Hacks”) and showcase them to their hacker peers.</p>\n\n<p>The hacker culture at MIT is romanticized – a group of young kids delving into an unknown realm and creating such cool hacks as sci-fi games, telephone exploits, and the first programming languages. These shy and socially inept kids were able to find their power through the computer, and also build a community of like-minded people. In reality this lifestyle worked for some for a little while, but also was simply unhealthy in the long run, and several of the MIT golden age hackers attempted suicide. This group made tremendous progress both in building new computer innovations, and also setting up the culture for digital freedom and cooperation that constitutes the hacker ethic. Yet in doing so they lived obsessive, asocial lives which often (and during a Vietnam Protest against the MIT lab even literally) barricaded themselves off from greater society in the process.</p>\n\n<p>Before reading this section, I had some idea of the origin of hackers, being the first master programmers. I was not however, aware of the true origins behind the culture, with the Tech Model Railroad Club at MIT. Also, the whole thing was so much more extreme than I would have anticipated. True hackers were doing 30 hour work days to grind out code, and even sleeping in cots at the computer lab – or even in the ceiling above it – jumping on the machine whenever someone scheduled to use it did not show up.</p>\n\n<p>To me, this hacker ethic is inspiring. It shows how people who may be outcasts among the greater public can find purpose and fit in. It also is somewhat scary, as I realize that to ever achieve the mastery of these elite hackers, a similar absolute devotion to hacking would be required. The great hackers like Greenblatt, Gosper, Samson, Kotok, Russell, and Nelson are to be admired, and their names should forever be part of the computer science origin story. Yet I would be cautious to mimic their lives exactly, seeing the extremes that they went during this golden age.</p>"
       }
     ]
   }</script>
 
   <script>
   const $ = (sel, el=document)=>el.querySelector(sel);
-  const fmtDate = (iso)=> new Date(iso + 'T00:00:00').toLocaleDateString(undefined,{year:'numeric', month:'short', day:'numeric'});
+  const fmtDate = (iso)=> new Date(iso + 'T00:00:00')
+    .toLocaleDateString(undefined,{year:'numeric', month:'short', day:'numeric'});
 
   async function loadData(){
-    try{
+    // Try to fetch posts.json from the same directory. If it fails, fall back to inline empty data.
+    try {
       const res = await fetch('posts.json', {cache:'no-store'});
-      if(res.ok){ return await res.json(); }
-      throw new Error('No external posts.json; using inline fallback');
-    }catch(err){
-      const txt = document.getElementById('posts-data').textContent;
-      return JSON.parse(txt);
+      if(!res.ok) throw new Error('posts.json not found');
+      const data = await res.json();
+      if(!data || !Array.isArray(data.posts)) throw new Error('Malformed posts.json');
+      return data;
+    } catch (err) {
+      console.warn('[blog] Using fallback data because:', err);
+      return { title: 'Blog', description: '', author: '', posts: [] };
     }
   }
 
   function renderList(model){
     document.title = (model.title||'Blog') + ' — Posts';
-    document.getElementById('site-title').textContent = model.title || 'Blog';
+    $('#site-title').textContent = model.title || 'Blog';
     const postsEl = $('#posts');
     postsEl.innerHTML = '';
-    const sorted = (model.posts||[]).slice().sort((a,b)=> (b.date||'').localeCompare(a.date||''));
-    sorted.forEach(p=>{
-      const tpl = document.getElementById('post-card');
-      const node = tpl.content.cloneNode(true);
-      const a = node.querySelector('a'); a.href = `./blog.html?slug=${encodeURIComponent(p.slug)}`;
-      node.querySelector('h2').textContent = p.title;
-      node.querySelector('.meta').textContent = `${fmtDate(p.date)}${p.tags?.length? ' · ' + p.tags.join(', ') : ''}`;
-      node.querySelector('.excerpt').textContent = p.summary || '';
-      postsEl.appendChild(node);
-    });
+
+    const posts = Array.isArray(model.posts) ? model.posts.slice() : [];
+    posts.sort((a,b)=> (b.date||'').localeCompare(a.date||''));
+
+    if(posts.length === 0){
+      const msg = document.createElement('p');
+      msg.style.color = '#9aa3af';
+      msg.textContent = 'No posts yet. Make sure posts.json sits next to blog.html and contains a "posts" array.';
+      postsEl.appendChild(msg);
+    } else {
+      posts.forEach(p=>{
+        const tpl = document.getElementById('post-card');
+        const node = tpl.content.cloneNode(true);
+        const a = node.querySelector('a'); a.href = `./blog.html?slug=${encodeURIComponent(p.slug)}`;
+        node.querySelector('h2').textContent = p.title || '(untitled)';
+        node.querySelector('.meta').textContent = `${fmtDate(p.date||'1970-01-01')}${(p.tags && p.tags.length)? ' · ' + p.tags.join(', ') : ''}`;
+        node.querySelector('.excerpt').textContent = p.summary || '';
+        postsEl.appendChild(node);
+      });
+    }
     $('#list-view').hidden = false;
   }
 
   function renderPost(model, slug){
-    const post = (model.posts||[]).find(p=>p.slug===slug);
-    if(!post){ location.replace('./blog.html'); return; }
-    document.title = post.title + ' — ' + (model.title||'Blog');
-    $('#post-title').textContent = post.title;
-    $('#post-meta').textContent = `${fmtDate(post.date)}${post.tags?.length? ' · ' + post.tags.join(', ') : ''}`;
+    const list = Array.isArray(model.posts) ? model.posts : [];
+    const post = list.find(p=>p.slug===slug);
+    if(!post){
+      // If slug not found, go back to list.
+      location.replace('./blog.html');
+      return;
+    }
+    document.title = (post.title||'(untitled)') + ' — ' + (model.title||'Blog');
+    $('#post-title').textContent = post.title || '(untitled)';
+    $('#post-meta').textContent = `${fmtDate(post.date||'1970-01-01')}${(post.tags && post.tags.length)? ' · ' + post.tags.join(', ') : ''}`;
     $('#post-body').innerHTML = post.content_html || '';
     $('#post-view').hidden = false;
   }
 
   (async function init(){
-    const model = await loadData();
+    let model;
+    try{
+      model = await loadData();
+    }catch(e){
+      console.error('Failed to load posts:', e);
+      model = {title:'Blog', posts:[]};
+    }
     const url = new URL(location.href);
     const slug = url.searchParams.get('slug');
     if(slug){ renderPost(model, slug); } else { renderList(model); }
@@ -149,3 +165,4 @@
   </script>
 </body>
 </html>
+
