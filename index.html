@@ -1,72 +1,117 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matt's Project Website</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Matt Daly — Personal Website</title>
+  <meta name="description" content="Personal website and project portfolio for Matt Daly, software enthusiast and engineer." />
+  <style>
+    :root {
+      --bg:#0b0c10; --panel:#12141a; --ink:#eaeef3; --muted:#9aa3af; --accent:#6ee7b7; --ring:#2a2f3a; --card:#0f1117;
+      --max:880px; --radius:16px; --gap:14px; --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial;
+      color:var(--ink);
+      background: radial-gradient(1200px 600px at 10% -10%, #111522 0%, #0b0c10 50%, #090a0e 100%);
+    }
+    a{color:inherit;text-decoration:none}
+    a:hover{text-decoration:underline;color:var(--accent)}
+    header{
+      position:sticky;top:0;
+      backdrop-filter:blur(8px);
+      background:color-mix(in oklab, var(--bg) 70%, transparent 30%);
+      border-bottom:1px solid var(--ring);z-index:5;
+    }
+    .wrap{max-width:var(--max);margin-inline:auto;padding:18px clamp(14px,4vw,24px);}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.3px}
+    .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(120deg,var(--accent),#93c5fd)}
+    main{padding-block:30px 60px;}
+    section{max-width:var(--max);margin:auto;padding:0 20px 50px;}
+    h1,h2{margin:0 0 10px 0;}
+    h1{font-size:clamp(1.8rem,1.3rem+1.2vw,2.3rem);}
+    h2{font-size:clamp(1.3rem,1rem+0.6vw,1.6rem);}
+    .about{display:flex;flex-wrap:wrap;align-items:center;gap:20px;}
+    .about img{width:140px;height:140px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;}
+    .about-text p{color:#d9e3f0;margin-top:6px;}
+    .projects{display:grid;gap:var(--gap);grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:20px;}
+    .card{
+      background:linear-gradient(180deg,#0d1016,#0b0e13);
+      border:1px solid var(--ring);border-radius:var(--radius);
+      padding:18px;box-shadow:var(--shadow);
+      display:flex;flex-direction:column;justify-content:space-between;
+    }
+    .card img{width:100%;border-radius:10px;margin-bottom:12px;border:1px solid var(--ring);}
+    .card h3{margin:0 0 4px;font-size:1.1rem;}
+    .card p{color:#cdd6e5;margin-bottom:8px;}
+    footer{text-align:center;color:var(--muted);padding:30px 0;border-top:1px solid var(--ring);}
+    .socials a img{width:34px;height:34px;margin-right:10px;border-radius:50%;transition:transform .3s;}
+    .socials a img:hover{transform:scale(1.15);}
+    .email{color:var(--muted);margin-top:10px;}
+  </style>
 </head>
+
 <body>
-    <header>
-        <nav>
-		<!--
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#project">Project</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#blog">Blog</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-		-->
-        </nav>
-    </header>
+  <header>
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:14px">
+      <a href="./index.html" class="brand"><span class="dot"></span><span>Matt Daly</span></a>
+      <nav><a href="./blog.html">Blog →</a></nav>
+    </div>
+  </header>
 
-    <section id="about">
-        <div class="container">
-            <div class="about-content">
-                <table>
-                    <tr>
-                        <td>
-                            <img src="out-0.png" alt="Matt Daly">
-                        </td>
-                        <td>
-                            <h3>Matt's personal website</h3>
-                        </td>
-                    </tr>
-                </table>
-                <h2>About Me</h2>
-                <p>Personal website for Matt Daly, software enthusiast and engineer. Here I host my personal projects and blog posts.</p>
-                <p>Check out my online presence or reach out to me with the links below.</p>
-		<br></br>
-		<p>Contact me: matthewndaly@gmail.com</p>
-                <div class="social-media">
-                    <a href="https://www.linkedin.com/in/mattdalynd/" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/2048px-LinkedIn_icon.svg.png" alt="LinkedIn"></a>
-                    <a href="https://github.com/MDaly27" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="Github"></a>
-                </div>
-            </div>
+  <main>
+    <section>
+      <div class="about">
+        <img src="out-0.png" alt="Matt Daly portrait">
+        <div class="about-text">
+          <h1>Hi, I’m Matt Daly</h1>
+          <p>Software enthusiast and engineer exploring systems, compilers, and AI tooling. This site hosts my personal projects and reflections.</p>
+          <div class="socials">
+            <a href="https://www.linkedin.com/in/mattdalynd/" target="_blank" aria-label="LinkedIn">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/2048px-LinkedIn_icon.svg.png" alt="LinkedIn">
+            </a>
+            <a href="https://github.com/MDaly27" target="_blank" aria-label="GitHub">
+              <!-- swapped to blue SVG icon -->
+              <img src="https://www.svgrepo.com/show/475654/github-color.svg" alt="GitHub">
+            </a>
+          </div>
+          <p class="email">Contact: <span id="email"></span></p>
         </div>
+      </div>
     </section>
 
-    <section id="highlighted-projects">
-        <div class="container">
-            <h2>Highlighted Projects</h2>
-            <div class="project-card">
-                <img src="https://as1.ftcdn.net/v2/jpg/03/27/17/26/1000_F_327172614_NEfJW1d9FthL0fhH7Kr3p2P5rfiNeMus.jpg" alt="Project 1">
-                <h3>Rainbow Table Simulator</h3>
-                <p>Visualize the output of a hash function with color-coded table values.</p>
-                <a href="projects/rainbowtable.html" target="_blank">Try it out!</a>
-            </div>
-            <div class="project-card">
-                <img src="droid.jpg" alt="Project 1">
-                <h3>Droid Build Project</h3>
-                <p>Disco-themed android built with classmate Seth Pickford for into robotics course.</p>
-                <a href="https://youtube.com/shorts/KAVqKdMCiE4?si=jk819Q7qb8EZ-xo2" target="_blank">Watch Video!</a>
-            </div>
+    <section>
+      <h2>Highlighted Projects</h2>
+      <div class="projects">
+        <div class="card">
+          <img src="https://as1.ftcdn.net/v2/jpg/03/27/17/26/1000_F_327172614_NEfJW1d9FthL0fhH7Kr3p2P5rfiNeMus.jpg" alt="Rainbow Table Simulator">
+          <h3>Rainbow Table Simulator</h3>
+          <p>Visualize hash outputs with a color-coded lookup chain generator.</p>
+          <a href="projects/rainbowtable.html" target="_blank">→ Try it out</a>
         </div>
+        <div class="card">
+          <img src="droid.jpg" alt="Droid Build Project">
+          <h3>Droid Build Project</h3>
+          <p>Disco-themed android built with Seth Pickford for Intro Robotics at Notre Dame.</p>
+          <a href="https://youtube.com/shorts/KAVqKdMCiE4?si=jk819Q7qb8EZ-xo2" target="_blank">→ Watch video</a>
+        </div>
+      </div>
     </section>
-    <!-- Other sections: Project Overview, Portfolio/Gallery, Blog/Updates, Contact, Testimonials/Reviews, Resources/Downloads, FAQ -->
-    <footer>
-        <p>&copy; Website Designed By Matt Daly</p>
-    </footer>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Matt Daly — <a href="./blog.html">Visit the Blog</a></p>
+  </footer>
+
+  <script>
+    // Obfuscate email to deter bots
+    const user = "matthewndaly";
+    const domain = "gmail.com";
+    document.getElementById("email").innerHTML =
+      `<a href="mailto:${user}@${domain}">${user}&#x200B;@&#x200B;${domain}</a>`;
+  </script>
 </body>
 </html>
+
