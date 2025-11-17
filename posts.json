@@ -67,6 +67,16 @@
     "tags": ["reading", "reflection", "opensource", "esr"],
     "summary": "Reflection on Eric S. Raymond's 'The Magic Cauldron' and 'Homesteading the Noosphere', focusing on open source economics and sustainability.",
     "content_html": "<h2>Reflection – The Magic Cauldron and Homesteading the Noosphere</h2><p>In these readings ESR continues to explore the world of open source software. He looks at it from an economic perspective, explaining how it can compete against the 'factory' model, and actually produce more useful software. How could free software both find developers to contribute and maintain it and also secure a user base among for-profit competitors?</p><p>One reason is that software is information, and with the internet it has become very easy to transfer. Another is that contrary to most other resources, the value of software actually increases with more use. As more people begin to use a software it benefits from an ecosystem of users contributing to the codebase, developing manuals, and getting their colleagues to adopt it.</p><p>ESR made another interesting point: that software is valued by consumers based on its expected future relevance. When software products are discontinued or their companies go out of business, customers lose interest in the product entirely. The marketing and hype behind a product really has a significant impact on how it will sell. To ESR, this system results in corporations developing shelfware, or useless products that survive based on marketing. Open source software, on the other hand, will usually end up working well since it is built to solve a problem rather than generate profit.</p>"
+},
+
+
+{
+    "slug": "hackers-in-the-bazaar-reflection",
+    "title": "Reflection 09 – Hackers in the Bazaar",
+    "date": "2025-11-16",
+    "tags": ["reading", "reflection", "opensource", "linustorvalds"],
+    "summary": "Reflection on Linus Torvalds' early life and motivations as described in 'Hackers in the Bazaar'.",
+    "content_html": "<h2>Reflection 09 – Hackers in the Bazaar</h2><p>In this reading we get a glimpse into the childhood of Linus Torvalds. He described being a nerdy and awkward youth with some insecurities, but he did not let this hold him back. Instead of sports he found his passion in computers through the guidance of his grandfather. His first language was Basic, which he used to create some basic programs.</p><p>By the time he was in college Linus was getting more advanced, and was looking into operating systems. Feeling constrained by his Minix operating system, Linus simply desired a better operating system. At this time the internet was just beginning, and getting software was much more difficult than it is today. Additionally, open source software was hardly a thing at the time, at least not for stuff like operating systems. His motivation was simply an itch to improve what tools were available, and that makes him more of a pure hacker than people like Zuckerberg and Gates.</p><p>I see Torvald’s story as inspiring and can somewhat relate it to myself. Just like Linus I was interested in programming when I was younger, and built some simple video games. Linus shows that the key to success is to be yourself and not let your interest go to waste.</p>"
 }
 
 
